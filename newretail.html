@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Item</title>
+  <style>
+    /* Reset and Basic Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f7faff;
+      color: #333;
+    }
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar (same as before) */
+    .sidebar {
+      width: 60px;
+      background-color: #002B5B;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .sidebar a {
+      margin: 20px 0;
+      display: block;
+    }
+    .sidebar img.icon {
+      width: 30px;
+      height: 30px;
+    }
+    /* Main Content Styling */
+    .content {
+      flex: 1;
+      padding: 30px;
+    }
+    header.header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    header.header h1 {
+      font-size: 28px;
+      color: #333;
+    }
+    header.header .action-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    header.header .action-buttons button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.add-new {
+      background-color: #ffcc00;
+      color: #333;
+    }
+    button.save-button {
+      background-color: #28a745;
+      color: #fff;
+    }
+    /* Forms Layout: Two Columns */
+    .forms-container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      flex: 1;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .section h2 {
+      font-size: 22px;
+      color: #007bff;
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 5px solid #007bff;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      background-color: #fff;
+    }
+    /* Plus Button Styling */
+    .split-container {
+      display: flex;
+      align-items: center;
+    }
+    .plus-button {
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 50%;
+      color: #333;
+      font-size: 20px;
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      line-height: 0;
+    }
+    .plus-button:hover {
+      background-color: #e6b800;
+    }
+    /* In-Stock Inventory Details Section */
+    .in-stock-section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .in-stock-section h2 {
+      font-size: 22px;
+      color: #007bff;
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 5px solid #007bff;
+    }
+    .in-stock-section table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .in-stock-section th,
+    .in-stock-section td {
+      border: 1px solid #dcdcdc;
+      padding: 12px;
+      text-align: left;
+      font-size: 15px;
+    }
+    .in-stock-section th {
+      background-color: #f4f4f4;
+    }
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content h2 {
+      margin-bottom: 20px;
+    }
+    .modal-content input {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .modal-content button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .modal-content .close:hover {
+      color: #000;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .forms-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 60px;
+      }
+      .content {
+        padding: 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .wrapper {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        text-align: center;
+      }
+      header.header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header.header h1 {
+        margin-bottom: 10px;
+      }
+      .action-buttons {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar (same as before) -->
+    <aside class="sidebar">
+      <a href="dashboard.html">
+        <img src="images/dashboard-icon.png" alt="Dashboard" class="icon">
+      </a>
+      <a href="consignors.html">
+        <img src="images/consignors-icon.png" alt="Consignors" class="icon">
+      </a>
+      <a href="reports.html">
+        <img src="images/reports-icon.png" alt="Reports" class="icon">
+      </a>
+      <a href="settings.html">
+        <img src="images/settings-icon.png" alt="Settings" class="icon">
+      </a>
+      <a href="more.html">
+        <img src="images/more-icon.png" alt="More" class="icon">
+      </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <header class="header">
+        <h1>New Item</h1>
+        <div class="action-buttons">
+          <button class="add-new">Add New Item</button>
+          <button class="save-button">Save</button>
+        </div>
+      </header>
+
+      <div class="forms-container">
+        <!-- Left Column: Item Details -->
+        <section class="section item-details">
+          <h2>Item Details</h2>
+          <form id="item-details-form">
+            <div class="form-group">
+              <label for="product-name">Product Name</label>
+              <input type="text" id="product-name" placeholder="Enter product name">
+            </div>
+            <div class="form-group">
+              <label for="short-description">Short Description</label>
+              <textarea id="short-description" placeholder="Enter short description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <div class="split-container">
+                <select id="category">
+                  <option value="Default">Default Category</option>
+                </select>
+                <button type="button" id="openModalCategory" class="plus-button">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="consignor">Consignor</label>
+              <input type="text" id="consignor" value="Ashley Adams" readonly>
+            </div>
+            <div class="form-group">
+              <label for="brand">Brand</label>
+              <div class="split-container">
+                <select id="brand">
+                  <option value="Default">Default Brand</option>
+                </select>
+                <button type="button" id="openModalBrand" class="plus-button">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="split">Split</label>
+              <div class="split-container">
+                <select id="split">
+                  <option value="90/10">90/10</option>
+                </select>
+                <button type="button" id="openModalSplit" class="plus-button">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="quality">Quality</label>
+              <input type="text" id="quality" placeholder="Enter quality">
+            </div>
+            <div class="form-group">
+              <label for="dimensions">Dimensions</label>
+              <input type="text" id="dimensions" placeholder="Enter dimensions">
+            </div>
+            <div class="form-group">
+              <label for="auto-discount">Auto Discount</label>
+              <input type="checkbox" id="auto-discount">
+            </div>
+            <div class="form-group">
+              <label for="auto-discount-plan">Auto Discount Plan</label>
+              <select id="auto-discount-plan">
+                <option value="default">Default</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="charge-tax">Charge Tax</label>
+              <input type="checkbox" id="charge-tax">
+            </div>
+            <div class="form-group">
+              <label for="tax-rate">Tax Rate</label>
+              <input type="text" id="tax-rate" placeholder="Enter tax rate">
+            </div>
+            <div class="form-group">
+              <label for="item-fee">Item Fee</label>
+              <input type="checkbox" id="item-fee">
+            </div>
+            <div class="form-group">
+              <label for="product-notes">Product Notes</label>
+              <textarea id="product-notes" placeholder="Enter product notes" rows="3"></textarea>
+            </div>
+          </form>
+        </section>
+
+        <!-- Right Column: Pricing & Inventory (with SKU Section) -->
+        <section class="section pricing-inventory">
+          <h2>Pricing & Inventory</h2>
+          <form id="pricing-inventory-form">
+            <div class="form-group">
+              <label>Product Type</label>
+              <div>
+                <label><input type="radio" name="product-type" value="standard" checked> Standard Product</label>
+                <label><input type="radio" name="product-type" value="variants"> Product With Variants</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" id="price" placeholder="Enter price">
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" value="1">
+            </div>
+            <div class="form-group">
+              <label for="sku">SKU</label>
+              <input type="text" id="sku" placeholder="Enter SKU">
+            </div>
+            <div class="form-group">
+              <label for="upc">UPC</label>
+              <input type="text" id="upc" placeholder="Enter UPC">
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status">
+                <option value="in-stock">In Stock</option>
+                <option value="out-of-stock">Out of Stock</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="in-stock-date">In Stock Date</label>
+              <input type="date" id="in-stock-date" value="2024-11-04">
+            </div>
+            <div class="form-group">
+              <label for="low-stock-threshold">Low Stock Threshold</label>
+              <input type="number" id="low-stock-threshold" value="0">
+            </div>
+            <!-- Additional SKU/Cost Fields -->
+            <div class="form-group">
+              <label for="current-cost">Current Cost</label>
+              <input type="number" step="0.01" id="current-cost" placeholder="Enter current cost">
+            </div>
+            <div class="form-group">
+              <label for="remaining-quantity">Remaining Quantity</label>
+              <input type="number" id="remaining-quantity" value="1" readonly>
+              <button type="button" id="subtractButton" class="plus-button" style="font-size:16px;">–</button>
+            </div>
+            <div class="form-group">
+              <label for="cost">Cost</label>
+              <input type="number" step="0.01" id="cost" placeholder="Enter cost">
+            </div>
+            <div class="form-group">
+              <label for="net">Net</label>
+              <input type="text" id="net" placeholder="Enter net">
+            </div>
+            <div class="form-group">
+              <label for="department">Department</label>
+              <div class="split-container">
+                <select id="department">
+                  <option value="default">Default Department</option>
+                </select>
+                <button type="button" id="openModalDepartment" class="plus-button">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="weight">Weight (lbs)</label>
+              <input type="text" id="weight" placeholder="Enter weight">
+            </div>
+            <div class="form-group">
+              <label for="vendor-store">Vendor Store</label>
+              <input type="text" id="vendor-store" placeholder="Enter vendor store">
+            </div>
+          </form>
+        </section>
+      </div>
+      
+      <!-- In-Stock Inventory Details Section (New) -->
+      <section class="in-stock-section">
+        <h2>In‑Stock Inventory Details</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Received</th>
+              <th>Remaining Quantity</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>00005Y</td>
+              <td>11/04/2024</td>
+              <td>
+                <span id="tableRemainingQty">1</span>
+                <button id="tableSubtractButton" onclick="subtractOne()" style="background-color:#ffcc00; border:none; border-radius:50%; width:25px; height:25px; font-size:16px; margin-left:5px; cursor:pointer;">–</button>
+              </td>
+              <td>2.35</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modals for Adding New Options -->
+  <!-- Modal for Category -->
+  <div id="modalCategory" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="modalCategory">&times;</span>
+      <h2>New Category</h2>
+      <input type="text" id="newCategoryInput" placeholder="Enter new category">
+      <button id="addCategoryButton">Add Category</button>
+    </div>
+  </div>
+  <!-- Modal for Brand -->
+  <div id="modalBrand" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="modalBrand">&times;</span>
+      <h2>New Brand</h2>
+      <input type="text" id="newBrandInput" placeholder="Enter new brand">
+      <button id="addBrandButton">Add Brand</button>
+    </div>
+  </div>
+  <!-- Modal for Split -->
+  <div id="modalSplit" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="modalSplit">&times;</span>
+      <h2>New Split</h2>
+      <input type="text" id="newSplitInput" placeholder="Enter new split option">
+      <button id="addSplitButton">Add Split</button>
+    </div>
+  </div>
+  <!-- Modal for Department -->
+  <div id="modalDepartment" class="modal">
+    <div class="modal-content">
+      <span class="close" data-modal="modalDepartment">&times;</span>
+      <h2>New Department</h2>
+      <input type="text" id="newDepartmentInput" placeholder="Enter new department">
+      <button id="addDepartmentButton">Add Department</button>
+    </div>
+  </div>
+
+  <script>
+    // Modal open and close functions
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+    // Plus buttons to open each modal
+    document.getElementById('openModalCategory').addEventListener('click', function() {
+      openModal('modalCategory');
+    });
+    document.getElementById('openModalBrand').addEventListener('click', function() {
+      openModal('modalBrand');
+    });
+    document.getElementById('openModalSplit').addEventListener('click', function() {
+      openModal('modalSplit');
+    });
+    document.getElementById('openModalDepartment').addEventListener('click', function() {
+      openModal('modalDepartment');
+    });
+    // Close modal when clicking on the close span
+    document.querySelectorAll('.modal .close').forEach(function(closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        closeModal(this.getAttribute('data-modal'));
+      });
+    });
+    // Function to add new option to a select element
+    function addOption(selectId, inputId) {
+      var newValue = document.getElementById(inputId).value.trim();
+      if (newValue !== '') {
+        var select = document.getElementById(selectId);
+        var newOption = document.createElement('option');
+        newOption.value = newValue;
+        newOption.text = newValue;
+        select.add(newOption);
+        select.value = newValue;
+        document.getElementById(inputId).value = '';
+      }
+    }
+    // Modal add buttons event listeners
+    document.getElementById('addCategoryButton').addEventListener('click', function() {
+      addOption('category', 'newCategoryInput');
+      closeModal('modalCategory');
+    });
+    document.getElementById('addBrandButton').addEventListener('click', function() {
+      addOption('brand', 'newBrandInput');
+      closeModal('modalBrand');
+    });
+    document.getElementById('addSplitButton').addEventListener('click', function() {
+      addOption('split', 'newSplitInput');
+      closeModal('modalSplit');
+    });
+    document.getElementById('addDepartmentButton').addEventListener('click', function() {
+      addOption('department', 'newDepartmentInput');
+      closeModal('modalDepartment');
+    });
+    // Close modals when clicking outside modal content
+    window.addEventListener('click', function(event) {
+      document.querySelectorAll('.modal').forEach(function(modal) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+    // Subtract One from the In-Stock Inventory Remaining Quantity in the table
+    function subtractOne() {
+      var qtySpan = document.getElementById('tableRemainingQty');
+      var currentQty = parseInt(qtySpan.textContent);
+      if (currentQty > 0) {
+        qtySpan.textContent = currentQty - 1;
+      }
+    }
+  </script>
+</body>
+</html>

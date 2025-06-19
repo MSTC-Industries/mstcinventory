@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ashley Adams – 03Z</title>
+  <style>
+    /* Reset defaults */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f7faff;
+      color: #333;
+    }
+    /* Wrapper: overall layout with sidebar and content */
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar styling (using custom image icons) */
+    .sidebar {
+      width: 60px;
+      background-color: #002B5B;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .sidebar a {
+      margin: 20px 0;
+      display: block;
+    }
+    .sidebar img.icon {
+      width: 30px;
+      height: 30px;
+    }
+    /* Main content styling */
+    .content {
+      flex: 1;
+      padding: 30px;
+    }
+    /* Header top (Back button & consignor name) */
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      padding: 20px;
+      border-bottom: 1px solid #e6e6e6;
+      margin-bottom: 0;
+    }
+    .header-top .back-button {
+      background-color: #ddd;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .header-top h1 {
+      font-size: 28px;
+      margin: 0;
+      color: #333;
+      flex: 1;
+      text-align: center;
+    }
+    /* Navigation header below top header */
+    .header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f9f9f9;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 30px;
+    }
+    .header-nav nav ul {
+      list-style: none;
+      display: flex;
+    }
+    .header-nav nav ul li {
+      margin-right: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #007bff;
+      padding-bottom: 5px;
+    }
+    .header-nav nav ul li.active,
+    .header-nav nav ul li:hover {
+      border-bottom: 2px solid #007bff;
+    }
+    .header-nav .action-buttons button {
+      background-color: #ffcc00;
+      border: none;
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+    /* Section styling (for all sections) */
+    .section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      flex: 1;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .section h2 {
+      font-size: 22px;
+      color: #007bff;
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 5px solid #007bff;
+    }
+    /* Form group styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      background-color: #fff;
+    }
+    /* Upper Forms Container: side-by-side layout for Account Details and Address */
+    .forms-container {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    /* Lower Extra Container: side-by-side layout for Notes, Preferences, and Documents */
+    .extra-container {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .forms-container,
+      .extra-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 60px;
+      }
+    }
+    @media (max-width: 480px) {
+      .wrapper {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+      }
+      .header-top, .header-nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-top h1 {
+        text-align: left;
+        margin-top: 10px;
+      }
+      .header-nav nav ul {
+        flex-wrap: wrap;
+      }
+      .header-nav .action-buttons {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar with Custom Image Icons -->
+    <aside class="sidebar">
+      <a href="dashboard.html">
+        <img src="images/dashboard-icon.png" alt="Dashboard" class="icon">
+      </a>
+      <a href="consignors.html">
+        <img src="images/consignors-icon.png" alt="Consignors" class="icon">
+      </a>
+      <a href="reports.html">
+        <img src="images/reports-icon.png" alt="Reports" class="icon">
+      </a>
+      <a href="settings.html">
+        <img src="images/settings-icon.png" alt="Settings" class="icon">
+      </a>
+      <a href="more.html">
+        <img src="images/more-icon.png" alt="More" class="icon">
+      </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Top Header: Back button & consignor name -->
+      <div class="header-top">
+        <button class="back-button" onclick="window.location.href='consignors.html'">Back to Consignors</button>
+        <h1>Ashley Adams – 03Z</h1>
+      </div>
+
+      <!-- Navigation Header: Tabs and Action Buttons -->
+      <div class="header-nav">
+        <nav>
+          <ul>
+            <li class="active">Account Details</li>
+            <li>Inventory</li>
+            <li>Payout</li>
+            <li>Payout History</li>
+            <li>Purchase History</li>
+            <li>Store Purchases</li>
+          </ul>
+        </nav>
+        <div class="action-buttons">
+          <button class="add-new">Add New</button>
+          <button class="print-labels">Print Labels</button>
+        </div>
+      </div>
+
+      <!-- Upper Forms Container: Account Details and Address side by side -->
+      <div class="forms-container">
+        <!-- Account Details Section (remains unchanged from previous page) -->
+        <section class="section account-section">
+          <h2>Account Details</h2>
+          <form id="account-form">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" placeholder="Enter first name" />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" placeholder="Enter last name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="Enter email" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" placeholder="Enter phone number" />
+            </div>
+            <div class="form-group">
+              <label for="custom-id">Custom ID</label>
+              <input type="text" id="custom-id" placeholder="Enter custom ID" />
+            </div>
+            <!-- Split section with plus button remains as before -->
+            <div class="form-group">
+              <label for="split">Split</label>
+              <div class="split-container">
+                <select id="split">
+                  <option value="50/50">50/50</option>
+                </select>
+                <!-- (If you still want the plus button for adding custom splits, include it here) -->
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username">User Name</label>
+              <input type="text" id="username" placeholder="Enter user name" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter password" />
+            </div>
+            <div class="form-group">
+              <label for="last-login">Last Login</label>
+              <input type="text" id="last-login" placeholder="N/A" readonly />
+            </div>
+          </form>
+        </section>
+
+        <!-- Address Section (remains unchanged) -->
+        <section class="section address-section">
+          <h2>Address</h2>
+          <form id="address-form">
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" placeholder="Enter address" />
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" placeholder="Enter city" />
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <input type="text" id="state" placeholder="Enter state" />
+            </div>
+            <div class="form-group">
+              <label for="postcode">Postcode</label>
+              <input type="text" id="postcode" placeholder="Enter postcode" />
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country">
+                <option value="" selected>Select</option>
+                <!-- Add more country options as needed -->
+              </select>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <!-- Lower Extra Container: Notes, Preferences, and Documents (unchanged) -->
+      <div class="extra-container">
+        <!-- Notes Section -->
+        <section class="section notes-section">
+          <h2>Notes</h2>
+          <form id="notes-form">
+            <div class="form-group">
+              <textarea id="notes" placeholder="Enter notes here..." rows="5"></textarea>
+            </div>
+          </form>
+        </section>
+
+        <!-- Preferences Section -->
+        <section class="section preferences-section">
+          <h2>Preferences</h2>
+          <form id="preferences-form">
+            <div class="form-group">
+              <label><input type="checkbox" name="email_notifications" /> Email Notifications</label>
+            </div>
+            <div class="form-group">
+              <label><input type="checkbox" name="sms_notifications" /> SMS Notifications</label>
+            </div>
+          </form>
+        </section>
+
+        <!-- Documents Section -->
+        <section class="section documents-section">
+          <h2>Documents</h2>
+          <form id="documents-form">
+            <div class="form-group">
+              <label for="upload-doc">Upload Document</label>
+              <input type="file" id="upload-doc" />
+            </div>
+            <div class="form-group">
+              <label for="doc-type">Document Type</label>
+              <select id="doc-type">
+                <option value="">Select type</option>
+                <option value="passport">Passport</option>
+                <option value="license">Driver's License</option>
+              </select>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

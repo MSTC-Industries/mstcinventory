@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discounts</title>
+  <style>
+    /* Reset and Basic Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f7faff;
+      color: #333;
+    }
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar (same as our previous pages) */
+    .sidebar {
+      width: 60px;
+      background-color: #002B5B;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .sidebar a {
+      margin: 20px 0;
+      display: block;
+    }
+    .sidebar img.icon {
+      width: 30px;
+      height: 30px;
+    }
+    /* Main Content */
+    .content {
+      flex: 1;
+      padding: 30px;
+    }
+    header.header {
+      margin-bottom: 30px;
+    }
+    header.header h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    /* ---------- Toggle Switch Styling ---------- */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #28a745;
+    }
+    input:checked + .slider:before {
+      transform: translateX(16px);
+    }
+    /* ---------- Table Styling for Discounts ---------- */
+    .discounts-table,
+    .consignment-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .discounts-table th,
+    .discounts-table td,
+    .consignment-table th,
+    .consignment-table td {
+      border: 1px solid #dcdcdc;
+      padding: 12px;
+      font-size: 15px;
+      text-align: left;
+    }
+    .discounts-table th,
+    .consignment-table th {
+      background-color: #f4f4f4;
+    }
+    a.edit-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.edit-link:hover {
+      text-decoration: underline;
+    }
+    /* ---------- Section Headings ---------- */
+    .section-heading {
+      font-size: 22px;
+      color: #007bff;
+      margin-bottom: 20px;
+      padding-left: 10px;
+      border-left: 5px solid #007bff;
+    }
+    /* ---------- Consignment Auto Discounts Input Styling ---------- */
+    .consignment-table input[type="text"] {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+    }
+    .consignment-table input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+    /* Red X delete button */
+    .delete-row {
+      background-color: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    /* ---------- Responsive Adjustments ---------- */
+    @media (max-width: 768px) {
+      .content {
+        padding: 20px;
+      }
+      .discounts-table, .consignment-table {
+        font-size: 14px;
+      }
+    }
+    @media (max-width: 480px) {
+      .wrapper {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        text-align: center;
+      }
+      header.header h1 {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="dashboard.html">
+        <img src="images/dashboard-icon.png" alt="Dashboard" class="icon">
+      </a>
+      <a href="consignors.html">
+        <img src="images/consignors-icon.png" alt="Consignors" class="icon">
+      </a>
+      <a href="reports.html">
+        <img src="images/reports-icon.png" alt="Reports" class="icon">
+      </a>
+      <a href="settings.html">
+        <img src="images/settings-icon.png" alt="Settings" class="icon">
+      </a>
+      <a href="more.html">
+        <img src="images/more-icon.png" alt="More" class="icon">
+      </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <header class="header">
+        <h1>Discounts</h1>
+      </header>
+
+      <!-- Store Discounts & Coupons Section -->
+      <section>
+        <div class="section-heading">Store Discounts &amp; Coupons</div>
+        <table class="discounts-table">
+          <thead>
+            <tr>
+              <th>Toggle</th>
+              <th>Name</th>
+              <th>Platform</th>
+              <th>Type</th>
+              <th>Coupon Code</th>
+              <th>Status</th>
+              <th>Edit Discount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>40% Sale</td>
+              <td>POS</td>
+              <td>Percent</td>
+              <td></td>
+              <td>Inactive</td>
+              <td><a href="#" class="edit-link">Edit</a></td>
+            </tr>
+            <tr>
+              <td>
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>40% Shorts Online</td>
+              <td>Webstore</td>
+              <td>Percent</td>
+              <td></td>
+              <td>Inactive</td>
+              <td><a href="#" class="edit-link">Edit</a></td>
+            </tr>
+            <tr>
+              <td>
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>Adam West</td>
+              <td>No platform set</td>
+              <td>Percent</td>
+              <td></td>
+              <td>Inactive</td>
+              <td><a href="#" class="edit-link">Edit</a></td>
+            </tr>
+            <tr>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>Black Friday</td>
+              <td>POS</td>
+              <td>Percent</td>
+              <td></td>
+              <td>Expired</td>
+              <td><a href="#" class="edit-link">Edit</a></td>
+            </tr>
+            <tr>
+              <td>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>Holiday Sale</td>
+              <td>POS</td>
+              <td>Percent</td>
+              <td>Holidays</td>
+              <td>Expired</td>
+              <td><a href="#" class="edit-link">Edit</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Consignment Auto Discounts Section -->
+      <section>
+        <div class="section-heading">Consignment Auto Discounts</div>
+        <table class="consignment-table" id="consignmentTable">
+          <thead>
+            <tr>
+              <th>Plan Name</th>
+              <th>Days Out</th>
+              <th>Type</th>
+              <th>Discount %</th>
+              <th>Allow expired items to sell?</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" value="Default"></td>
+              <td><input type="text" value="30"></td>
+              <td><input type="text" value="Discount"></td>
+              <td><input type="text" value="20.00"></td>
+              <td style="text-align:center;"><input type="checkbox" checked></td>
+              <td><button class="delete-row">×</button></td>
+            </tr>
+            <tr>
+              <td><input type="text" value=""></td>
+              <td><input type="text" value="45"></td>
+              <td><input type="text" value="Expired"></td>
+              <td><input type="text" value=""></td>
+              <td style="text-align:center;"><input type="checkbox"></td>
+              <td><button class="delete-row">×</button></td>
+            </tr>
+            <tr>
+              <td><input type="text" value="No Discount"></td>
+              <td><input type="text" value="120"></td>
+              <td><input type="text" value="Expired"></td>
+              <td><input type="text" value=""></td>
+              <td></td>
+              <td><button class="delete-row">×</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // JavaScript to delete a consignment discount row when the red X is clicked
+    document.querySelectorAll('.delete-row').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+      });
+    });
+  </script>
+</body>
+</html>

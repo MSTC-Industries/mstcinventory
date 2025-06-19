@@ -1,115 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consignors Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .actions {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .actions a {
-            text-decoration: none;
-            color: #007bff;
-            margin-right: 15px;
-        }
-        .actions button {
-            background-color: #ffc107;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination a {
-            text-decoration: none;
-            color: #007bff;
-            margin: 0 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consignors (Active)</title>
+  <style>
+    /* Global Reset & Body Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      background-color: #f4f4f4;
+    }
+
+    /* Sidebar Styling (Full Height) */
+    .sidebar {
+      width: 60px;
+      background-color: #002B5B;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh; /* Makes the sidebar stretch the full height */
+    }
+    .sidebar a {
+      display: block;
+      margin: 20px 0;
+    }
+    .sidebar img.icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Content Area Styling */
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .header .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .header .buttons button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ffcc00;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Table Styling */
+    .table-container {
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    button.edit,
+    button.add {
+      padding: 5px 10px;
+      border: none;
+      background-color: #ffcc00;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* Pagination Controls */
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .pagination button {
+      padding: 5px 10px;
+      border: none;
+      background-color: #ddd;
+      cursor: pointer;
+      font-size: 13px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Active Consignors</h1>
-        <div class="actions">
-            <div>
-                <a href="#">View Archived</a> | <a href="#">Edit Columns</a>
-            </div>
-            <button><a href = "l2.html">New Consignor</a></button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Consignor Credit</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>004</td>
-                    <td>Adam</td>
-                    <td>West</td>
-                    <td>adam@west.cv</td>
-                    <td>208-284-5728</td>
-                    <td>$2,500.00</td>
-                    <td><a href="#">Edit</a> | <a href="#">Add</a></td>
-                </tr>
-                <tr>
-                    <td>03U</td>
-                    <td>Bennie</td>
-                    <td>Lowe</td>
-                    <td>champlin.addison@example.net</td>
-                    <td></td>
-                    <td>$0.00</td>
-                    <td><a href="#">Edit</a> | <a href="#">Add</a></td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <a href="#">Previous</a>
-            <a href="#">Next</a>
-        </div>
+  <!-- Sidebar with Custom Image Icons -->
+  <div class="sidebar">
+    <a href="dashboard.html">
+      <img src="images/dashboard-icon.png" alt="Dashboard" class="icon">
+    </a>
+    <a href="consignors.html">
+      <img src="images/consignors-icon.png" alt="Consignors" class="icon">
+    </a>
+    <a href="reports.html">
+      <img src="images/reports-icon.png" alt="Reports" class="icon">
+    </a>
+    <a href="settings.html">
+      <img src="images/settings-icon.png" alt="Settings" class="icon">
+    </a>
+    <a href="more.html">
+      <img src="images/more-icon.png" alt="More" class="icon">
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="header">
+      <h1>Consignors (Active)</h1>
+      <div class="buttons">
+        <button><a href="l3.html">New Consignor</a></button>
+        <button>More</button>
+      </div>
     </div>
+    
+    <!-- Table Container -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID #</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Consignor Credit</th>
+            <th>Edit</th>
+            <th>Add</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>004</td>
+            <td>Adam</td>
+            <td>West</td>
+            <td>adam@west.cv</td>
+            <td>208-284-5728</td>
+            <td>$2,500.00</td>
+            <td><button class="edit">Edit</button></td>
+            <td><button class="add">Add</button></td>
+          </tr>
+          <tr>
+            <td>03U</td>
+            <td>Bennie</td>
+            <td>Lowe</td>
+            <td>champlin.addison@example.net</td>
+            <td></td>
+            <td>$0.00</td>
+            <td><button class="edit">Edit</button></td>
+            <td><button class="add">Add</button></td>
+          </tr>
+          <tr>
+            <td>01D</td>
+            <td>Billy</td>
+            <td>Jeans</td>
+            <td>billyjeans@gmail.com</td>
+            <td></td>
+            <td>$0.00</td>
+            <td><button class="edit">Edit</button></td>
+            <td><button class="add">Add</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+      <button>Prev</button>
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>Next</button>
+    </div>
+  </div>
 </body>
 </html>
