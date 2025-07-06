@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code 128 Barcode Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #e6f0ff, #fefefe);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    #barcode {
+      margin: 1rem 0;
+    }
+
+    #input-container {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Code 128 Barcode Generator</h1>
+
+  <div id="input-container">
+    <input type="text" id="barcode-input" placeholder="Enter code (e.g. 123456789)" />
+    <button onclick="generateBarcode()">Generate</button>
+  </div>
+
+  <svg id="barcode"></svg>
+
+  <script>
+    function generateBarcode() {
+      const value = document.getElementById("barcode-input").value;
+      if (!value) return;
+
+      JsBarcode("#barcode", value, {
+        format: "CODE128",
+        lineColor: "#000",
+        width: 2,
+        height: 100,
+        displayValue: true
+      });
+    }
+
+    // Optional: generate default on load
+    window.onload = () => {
+      document.getElementById("barcode-input").value = "123456789012";
+      generateBarcode();
+    };
+  </script>
+
+</body>
+</html>
